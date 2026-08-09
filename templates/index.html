@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steganography Project</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f0ff;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #6c4ab6;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+            margin: 40px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            color: #6c4ab6;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        button {
+            background: #6c4ab6;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #543795;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🔐 Steganography Website</h1>
+    <p>Hide and Extract Secret Messages</p>
+</header>
+
+<div class="container">
+
+    <!-- Hide Message -->
+    <div class="card">
+        <h2>🔒 Hide Message in Image</h2>
+
+        <form action="/hide" method="POST" enctype="multipart/form-data">
+
+            <label>Select Image:</label>
+            <input
+                type="file"
+                name="image"
+                accept="image/*"
+                required
+            >
+
+            <label>Enter Secret Message:</label>
+            <textarea
+                name="message"
+                placeholder="Enter your secret message here..."
+                required
+            ></textarea>
+
+            <button type="submit">
+                Hide Message
+            </button>
+
+        </form>
+    </div>
+
+
+    <!-- Extract Message -->
+    <div class="card">
+        <h2>🔓 Extract Message from Image</h2>
+
+        <form action="/extract" method="POST" enctype="multipart/form-data">
+
+            <label>Select Encoded Image:</label>
+            <input
+                type="file"
+                name="encoded_image"
+                accept="image/*"
+                required
+            >
+
+            <button type="submit">
+                Extract Message
+            </button>
+
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+
+uploads/
+encoded_image.png
+
+.env
+*.env
+
+.vscode/
