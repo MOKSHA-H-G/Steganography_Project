@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, send_file
 from PIL import Image
 import os
+from audio_steganography import hide_message as hide_audio_message
+from audio_steganography import extract_message as extract_audio_message
 
 app = Flask(__name__)
 
@@ -104,7 +106,33 @@ def hide():
         download_name="encoded_image.png"
     )
 
+@app.route("/hide-audio", methods=["POST"])
+def hide_audio():
+    audio = request.files.get("audio")
+    message = request.form.get("audio_message", "").strip()
 
+    if not audio or not message:
+        return "Please select an audio file and enter a message."
+
+    input_path = os.path.join(UPLOAD_FOLDER, audio.filename)
+    output_path = os.path.join(UPLOAD_FOLDER, "encoded_audio.wav")
+
+    audio.save(input_path)
+
+    success = hide_audio_message(
+        input_path,
+        message,
+        output_path
+    )
+
+    if not success:
+        return "Message is too large for this audio file."
+
+    return send_file(
+        output_path,
+        as_attachment=True,
+        download_name="encoded_audio.wav"
+    )
 @app.route("/extract", methods=["POST"])
 def extract():
     image = request.files.get("encoded_image")
@@ -155,6 +183,54 @@ def extract():
     </html>
     """
 
+@app.route("/extract-audio", methods=["POST"])
+def extract_audio():
+    audio = request.files.get("encoded_audio")
 
+    if not audio:
+        return "Please select an encoded audio file."
+
+    input_path = os.path.join(UPLOAD_FOLDER, audio.filename)
+    audio.save(input_path)
+
+    message = extract_audio_message(input_path)
+
+    return f"""
+    <html>
+    <head>
+        <title>Hidden Audio Message</title>
+        <style>
+            body {{
+                font-family: Arial;
+                background: #f5f0ff;
+                text-align: center;
+                padding-top: 100px;
+            }}
+
+            .box {{
+                background: white;
+                padding: 30px;
+                margin: auto;
+                width: 60%;
+                border-radius: 12px;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            }}
+
+            h1 {{
+                color: #6c4ab6;
+            }}
+        </style>
+    </head>
+
+    <body>
+        <div class="box">
+            <h1>🔊 Hidden Audio Message</h1>
+            <p>{message}</p>
+            <br>
+            <a href="/">← Back to Website</a>
+        </div>
+    </body>
+    </html>
+    """
 if __name__ == "__main__":
     app.run(debug=False)

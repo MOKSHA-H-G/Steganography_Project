@@ -125,7 +125,55 @@
 
         </form>
     </div>
+<!-- Hide Message in Audio -->
+    <div class="card">
+        <h2>🔊 Hide Message in Audio</h2>
 
+        <form action="/hide-audio" method="POST" enctype="multipart/form-data">
+
+            <label>Select WAV Audio:</label>
+            <input
+                type="file"
+                name="audio"
+                accept=".wav"
+                required
+            >
+
+            <label>Enter Secret Message:</label>
+            <textarea
+                name="audio_message"
+                placeholder="Enter your secret message here..."
+                required
+            ></textarea>
+
+            <button type="submit">
+                Hide Message in Audio
+            </button>
+
+        </form>
+    </div>
+
+
+    <!-- Extract Message from Audio -->
+    <div class="card">
+        <h2>🔓 Extract Message from Audio</h2>
+
+        <form action="/extract-audio" method="POST" enctype="multipart/form-data">
+
+            <label>Select Encoded WAV Audio:</label>
+            <input
+                type="file"
+                name="encoded_audio"
+                accept=".wav"
+                required
+            >
+
+            <button type="submit">
+                Extract Message from Audio
+            </button>
+
+        </form>
+    </div>
 </div>
 
 </body>
